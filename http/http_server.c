@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -40,8 +41,8 @@ const char *get_mime_type(const char *file_ext) {
     }
 }
 
-char *url_decode(const char *src) {
-    printf("oi\n");
+char *
+url_decode(const char *src) {
     size_t src_len = strlen(src);
     char *decoded = malloc(src_len + 1);
     size_t decoded_len = 0;
@@ -60,7 +61,6 @@ char *url_decode(const char *src) {
 
     // add null terminator
     decoded[decoded_len] = '\0';
-    printf("Este é o file name: %s",decoded);
     return decoded;
 }
 
@@ -111,6 +111,7 @@ void build_http_response(const char *file_name, const char *file_ext, char *resp
         "Content-Type: %s\r\n"
         //"Content-Disposition: attachment; filename=\"%s\"\r\n"
         "\r\n",
+        //file_name,
         mime_type);
 
     // if file not exist, response is 404 Not Found
@@ -161,7 +162,7 @@ void build_root_response(char *response, size_t *response_len){
 }
 
 void *handle_client(void *arg){
-    printf("thread created\n");
+    printf("Thread created\n");
     int client_fd = *((int *)arg);
     char *buffer = (char *)malloc(BUFFER_SIZE * sizeof(char));
 
@@ -237,7 +238,13 @@ int main(int argc, char *argv[]){
         perror("socket failed");
         exit(EXIT_FAILURE);
     }
-    printf("socket ok\n");
+    printf("socket created\n");
+
+    int opt = 1;
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        perror("setsockopt(SO_REUSEADDR) failed");
+        exit(EXIT_FAILURE);
+    }
 
     // config socket
     server_addr.sin_family = AF_INET;

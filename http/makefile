@@ -10,23 +10,26 @@ LDFLAGS_CLIENT =
 TARGET_SERVER = server
 SRCS_SERVER = http_server.c
 OBJS_SERVER = $(SRCS_SERVER:.c=.o)
-
 LDFLAGS_SERVER = -lpthread
 
+# Regra 'all' é a padrão
 all: $(TARGET_CLIENT) $(TARGET_SERVER)
-client: $(TARGET_CLIENT)
-server: $(TARGET_SERVER)
 
+# REGRA DE CONSTRUÇÃO DO CLIENTE
 $(TARGET_CLIENT): $(OBJS_CLIENT)
 	$(CC) $(LDFLAGS_CLIENT) -o $@ $^
 
+# REGRA DE CONSTRUÇÃO DO SERVIDOR
 $(TARGET_SERVER): $(OBJS_SERVER)
 	$(CC) $(LDFLAGS_SERVER) -o $@ $^
 
+# Regra genérica para .c -> .o
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# Regra de limpeza
 clean:
 	rm -f $(TARGET_CLIENT) $(OBJS_CLIENT) $(TARGET_SERVER) $(OBJS_SERVER)
 
-.PHONY: all client server clean
+# 'all' e 'clean' são "falsos" (não são arquivos)
+.PHONY: all clean

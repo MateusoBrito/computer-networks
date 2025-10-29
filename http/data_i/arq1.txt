@@ -1,5 +1,1 @@
-The strchr function in C locates the first occurrence of a specific character within a string.
-
-The strdup() function in C creates a duplicate of a given string. It performs the following actions
-
-The memset() is used to fill a block of memory with a specific byte value.
+UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUH

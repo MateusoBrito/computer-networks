@@ -1,10 +1,11 @@
+#define _GNU_SOURCE
 #include <stdio.h>   
 #include <stdlib.h>  
 #include <string.h>  
-#include <sys/socket.h> // Socket programming (socket, connect)
-#include <netdb.h>   // DNS resolution (getaddrinfo)
-#include <unistd.h>  // POSIX API (close)
-#include <arpa/inet.h> // Internet operations (inet_ntop)
+#include <sys/socket.h> 
+#include <unistd.h> 
+#include <arpa/inet.h> 
+#include <netdb.h>
 
 const char* get_filename_from_path(const char* path){
     if(!path || *path=='\0' || strcmp(path,"/") == 0) return "index.html";
