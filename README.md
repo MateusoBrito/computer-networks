@@ -83,11 +83,11 @@ make client
 2.  Cria um socket e configura para reiniciar o servidor rapidamente.
 3.  Faz `bind()` do socket à porta definida (8080).
 4.  Entra em modo de escuta por conexões (máx: 10).
-5.  Entra em um loop (`while(1)`):
+5.  Entra em um loop:
     a.  Aguarda e aceita uma nova conexão de cliente.
     b.  **Cria uma `pthread` dedicada para lidar com a requisição do cliente.**
     c.  (A thread principal volta a esperar no `accept`).
-7.  **Na Thread do Cliente:**
+6.  **Na Thread do Cliente:**
     a.  Recebe a requisição e verifica se é um `GET`.
     b.  Extrai o `path` (ex: `/imagem.jpg`) e o decodifica (ex: `%20` -> ` `).
     c.  **Lógica de Resposta:**
@@ -100,6 +100,8 @@ make client
             - Se existir, prepara uma resposta `200 OK`.
     d.  Envia os cabeçalhos e o corpo (arquivo ou página 404) para o cliente.
     e.  Fecha o socket do cliente e a thread termina.
+
+
 
 ### Pipeline do Cliente HTT
 1.  Recebe uma URL (ex: `http://localhost:8080/img.jpg`).
